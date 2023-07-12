@@ -62,18 +62,12 @@ public class Main {
                 String matricula = JOptionPane.showInputDialog("Introduce la matrícula del vehículo que entra:");
 
                 try {
-                    URL url = new URL("https://aparcamiento480.com/API/registrarEntrada.php");
+                    String encodedMatricula = URLEncoder.encode(matricula, "UTF-8");
+                    URL url = new URL("https://aparcamiento480.com/API/registrarEntrada.php?matricula=" + encodedMatricula);
 
                     HttpURLConnection http = (HttpURLConnection) url.openConnection();
 
-                    http.setRequestMethod("POST");
-                    http.setDoOutput(true);
-                    http.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-
-                    String data = "matricula=" + URLEncoder.encode(matricula, "UTF-8");
-                    try (OutputStream out = http.getOutputStream()) {
-                        out.write(data.getBytes());
-                    }
+                    http.setRequestMethod("GET");
 
                     int responseCode = http.getResponseCode();
                     if (responseCode == HttpURLConnection.HTTP_OK) {
@@ -104,6 +98,7 @@ public class Main {
             }
         });
         panel.add(registrarEntradaButton);
+
 
 
 
@@ -265,7 +260,7 @@ public class Main {
         altaResidente.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String matricula = JOptionPane.showInputDialog("Introduce la matrícula del vehículo que sale:");
+                String matricula = JOptionPane.showInputDialog("Introduce la matrícula del vehículo residente:");
 
                 // Crear un objeto URL para la dirección del API
                 URL url = null;
@@ -417,4 +412,3 @@ public class Main {
         });
     }
 }
-
